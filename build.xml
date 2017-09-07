@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <project basedir="." default="build" name="DemoSlackApp">
+    <property environment="env"/>
+    <property name="BUILD_HOME" value="build-jars/"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="slack-api.location" value="../../slack-api"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="slack-api.classpath">
+        <pathelement location="${slack-api.location}/target/classes"/>
+        <pathelement location="${slack-api.location}/target/test-classes"/>
+    </path>
+    <path id="TestNG.libraryclasspath">
+        <pathelement location="${BUILD_HOME}/testng.jar"/>
+        <pathelement location="${BUILD_HOME}/jcommander.jar"/>
+        <pathelement location="${BUILD_HOME}/bsh-2.0b4.jar"/>
+        <pathelement location="${BUILD_HOME}/snakeyaml.jar"/>
+    </path>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${BUILD_HOME}/junit.jar"/>
+        <pathelement location="${BUILD_HOME}/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
+    <path id="DemoSlackApp.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="${BUILD_HOME}/jetty-all-uber.jar"/>
+        <pathelement location="${BUILD_HOME}/spcorejars.zip"/>
+        <pathelement location="${BUILD_HOME}/gson-2.8.1.jar"/>
+        <pathelement location="${BUILD_HOME}/sqlite-jdbc-3.20.0.jar"/>
+        <pathelement location="${BUILD_HOME}/spring-core-4.3.10.RELEASE.jar"/>
+        <pathelement location="${BUILD_HOME}/commons-logging-1.2.jar"/>
+        <pathelement location="${BUILD_HOME}/spring-beans-4.3.10.RELEASE.jar"/>
+        <pathelement location="${BUILD_HOME}/spring-aop-4.3.10.RELEASE.jar"/>
+        <pathelement location="${BUILD_HOME}/spring-context-4.3.10.RELEASE.jar"/>
+        <pathelement location="${BUILD_HOME}/spring-expression-4.3.10.RELEASE.jar"/>
+        <path refid="slack-api.classpath"/>
+        <pathelement location="${BUILD_HOME}/lombok(1).jar"/>
+        <pathelement location="${BUILD_HOME}/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+        <pathelement location="${BUILD_HOME}/slf4j-simple-1.7.7.jar"/>
+        <path refid="TestNG.libraryclasspath"/>
+        <pathelement location="${BUILD_HOME}/mockito-core-2.9.0.jar"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="${BUILD_HOME}/objenesis-2.1.jar"/>
+        <pathelement location="${BUILD_HOME}/byte-buddy-1.7.5.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="tst">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${slack-api.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${slack-api.location}" inheritAll="false" target="build-project"/>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="tst"/>
+            <classpath refid="DemoSlackApp.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="TicTacToeServletTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="com.slack.demoapp.servlet.TicTacToeServletTest" todir="${junit.output.dir}"/>
+            <classpath refid="DemoSlackApp.classpath"/>
+        </junit>
+    </target>
+    <target name="TttApplication">
+        <java classname="com.slack.demoapp.ttt.TttApplication" failonerror="true" fork="yes">
+            <classpath refid="DemoSlackApp.classpath"/>
+        </java>
+    </target>
+
+    <target name="test" depends="build-project">
+        <junit>
+            <formatter type="plain" usefile="false" />
+            <formatter type="plain" />
+            <batchtest>
+                <fileset dir="${bin}" includes="**/Test*.class" />
+            </batchtest>
+        </junit>
+    </target>
+
+
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>
