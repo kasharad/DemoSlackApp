@@ -67,11 +67,11 @@ public class Board {
 	}
 
 	/**
-	 * Checks if the Dagnal has same value
+	 * Checks if the Diagonal has same value
 	 * 
 	 * @return
 	 */
-	private boolean isSameDagnal() {
+	private boolean isSameDiagonal() {
 		boolean hasWon = true;
 		// Check row
 		char ch = board[0][0];
@@ -91,7 +91,7 @@ public class Board {
 	 * s
 	 * @return
 	 */
-	private boolean isSameReverseDagnal() {
+	private boolean isSameReverseDiagonal() {
 		boolean hasWon = true;
 		// Check row
 		char ch = board[0][SIZE - 1];
@@ -114,7 +114,7 @@ public class Board {
 	 */
 	public boolean hasWon(char c, int currentRow, int currentCol) {
 		return isSameRow(currentRow, c) || isSameCol(currentCol, c)
-				|| isSameDagnal() || isSameReverseDagnal();
+				|| isSameDiagonal() || isSameReverseDiagonal();
 	}
 
 	/**
