@@ -118,7 +118,6 @@ public class SqlLiteDBManager implements IAppDBManager {
 			conn = getConnection();
 			Statement stat = conn.createStatement();
 			String cmd = "select * from tokens where user='" + user_id + "';";
-			System.out.println(cmd);
 			rs = stat.executeQuery(cmd);
 			while (rs.next()) {
 				token = rs.getString("token");
