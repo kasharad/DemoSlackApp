@@ -152,6 +152,7 @@ public class Board {
 	public String printBoard() {
 
 		StringBuffer sb = new StringBuffer();
+                sb.append("\nBoard Status\n");
 		for (int row = 0; row < SIZE; ++row) {
 			for (int col = 0; col < SIZE; ++col) {
 				printCell(board[row][col], sb); // print each of the cells
