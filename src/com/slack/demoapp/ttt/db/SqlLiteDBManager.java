@@ -64,7 +64,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					LOGGER.info("Could not clean up " + e);
+					LOGGER.info("Could not clean up or nothing to clean up");
 				} 
 			}
 		}
@@ -105,7 +105,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 					rs.close();
 				}
 			} catch (SQLException e)  {
-				LOGGER.info("Could not clean up " + e);
+				LOGGER.info("Could not clean up or nothing to clean up");
 			} 
 		}
 	}
@@ -134,7 +134,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 					rs.close();
 				}
 			} catch (SQLException e)  {
-				LOGGER.info("Could not clean up " + e);
+				LOGGER.info("Could not clean up or nothing to clean up");
 			} 
 		}
 	}
@@ -168,7 +168,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 					prep.close();
 				}
 			} catch (SQLException e)  {
-				LOGGER.info("Could not clean up " + e);
+				LOGGER.info("Could not clean up or nothing to clean up");
 			} 
 		}
 	}
@@ -204,7 +204,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 					rs.close();
 				}
 			} catch (SQLException e)  {
-				LOGGER.info("Could not clean up " + e);
+				LOGGER.info("Could not clean up or nothing to clean up");
 			} 
 		}
 	}
@@ -237,7 +237,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 					pstmt.close();
 				}
 			} catch (SQLException e)  {
-				LOGGER.info("Could not clean up " + e);
+				LOGGER.info("Could not clean up or nothing to clean up");
 			} 
 		}
 	}
@@ -272,7 +272,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 					prep.close();
 				}
 			} catch (SQLException e)  {
-				LOGGER.info("Could not clean up " + e);
+				LOGGER.info("Could not clean up or nothing to clean up");
 			} 
 		}
 	}
@@ -299,7 +299,7 @@ public class SqlLiteDBManager implements IAppDBManager {
 					pstmt.close();
 				}
 			} catch (SQLException e)  {
-				LOGGER.info("Could not clean up " + e);
+				LOGGER.info("Could not clean up or nothing to clean up");
 			} 
 		}
 	}

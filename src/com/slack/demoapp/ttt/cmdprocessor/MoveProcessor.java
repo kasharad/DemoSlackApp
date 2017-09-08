@@ -48,7 +48,7 @@ public class MoveProcessor implements IProcessor {
 		if (!game.getNextPlayerId().equals(userId)) {
 			webApiClient
 					.postMessage(channel,
-							"It's not your move! You can see the status new game using /ttt show");
+							"It's not @"+ username  +" move! You can see the status new game using /ttt show");
 			response.setStatus(HttpServletResponse.SC_OK);
 			return;
 		}
