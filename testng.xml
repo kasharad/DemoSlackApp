@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="test suite" verbose="1" >
+  <test name="Regression suite 1" >
+   <packages>
+            <package name="com.slack.demoapp.ttt.cmdprocessor.*"/>
+            <package name="com.slack.demoapp.servlet.*" />
+   </packages>
+   
+ </test>
+</suite>

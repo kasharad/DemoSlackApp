@@ -22,6 +22,7 @@ import allbegray.slack.webapi.SlackWebApiClient;
 import com.slack.demoapp.ttt.TttApplication;
 import com.slack.demoapp.ttt.cmdprocessor.ChallengeProcessor;
 import com.slack.demoapp.ttt.cmdprocessor.MoveProcessor;
+import com.slack.demoapp.ttt.cmdprocessor.QuitProcessor;
 import com.slack.demoapp.ttt.cmdprocessor.ShowProcessor;
 import com.slack.demoapp.ttt.db.IAppDBManager;
 import com.slack.demoapp.ttt.db.SqlLiteDBManager;
@@ -50,6 +51,8 @@ public class TicTacToeCommandServlet extends HttpServlet{
 	
 	private ShowProcessor showProcessor;
 	
+	private QuitProcessor quitProcessor;
+	
 	private SlackApp slackApp;
 	
 	static Pattern challengePattern = Pattern.compile("challenge(\\s+)<@(\\w+)\\|(\\w+)>");
@@ -65,6 +68,7 @@ public class TicTacToeCommandServlet extends HttpServlet{
 				.getBean(ChallengeProcessor.CONTEXT);
 		moveProcessor = (MoveProcessor) context.getBean(MoveProcessor.CONTEXT);
 		showProcessor = (ShowProcessor) context.getBean(ShowProcessor.CONTEXT);
+		quitProcessor =  (QuitProcessor) context.getBean(QuitProcessor.CONTEXT);
 		slackApp = (SlackApp) context.getBean(SlackApp.CONTEXT);
 	}
 	
@@ -118,6 +122,8 @@ public class TicTacToeCommandServlet extends HttpServlet{
 				challengeProcessor.process(channel, cmd, webApiClient, userId, username, response);
 			} else if (cmd.startsWith("move")) {
 				moveProcessor.process(channel, cmd, webApiClient, userId, username, response);
+			} else if (cmd.startsWith("quit")) {
+				quitProcessor.process(channel, cmd, webApiClient, userId, username, response);
 			} else if (cmd.startsWith("show")) {
 				showProcessor.process(channel, cmd, webApiClient, userId, username, response);
 			} else {
@@ -129,7 +135,7 @@ public class TicTacToeCommandServlet extends HttpServlet{
 	}
 	
 	private void showHelp(String userId, SlackWebApiClient webApiClient) {
-		String s = "Usage: /ttt [challenge|move|show]\n";
+		String s = "Usage: /ttt [challenge|move|quit|show]\n";
 		String channelId = webApiClient.openDirectMessageChannel(userId);
 		webApiClient.postMessage(channelId, s);
 		webApiClient.closeDirectMessageChannel(channelId);

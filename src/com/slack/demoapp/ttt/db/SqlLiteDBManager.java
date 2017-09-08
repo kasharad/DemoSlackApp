@@ -53,6 +53,9 @@ public class SqlLiteDBManager implements IAppDBManager {
 			conn.createStatement()
 					.execute(
 							"CREATE TABLE IF NOT EXISTS tokens (user PRIMARY KEY, token) ");
+			conn.createStatement()
+			.execute(
+					"CREATE TABLE IF NOT EXISTS AppStore (AppId PRIMARY KEY, Secret, VerificationCode, url) ");
 
 		} catch (SQLException e) {
 			throw new com.slack.demoapp.ttt.exception.InternalError(e);

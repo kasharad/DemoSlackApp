@@ -66,7 +66,6 @@ public class MoveProcessor implements IProcessor {
 
 		Matcher m = movePattern.matcher(cmd);
 		if (m.find()) {
-			System.out.println(m.group(4) + " " + m.group(2));
 			int row = Integer.parseInt(m.group(2));
 			int col = Integer.parseInt(m.group(4));
 
